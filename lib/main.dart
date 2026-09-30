@@ -60,10 +60,8 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _obscurePassword = true;
   bool _isLoading = false;
 
-  // Errors stay hidden until the user taps Sign Up for the first time.
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
 
-  // ---------- Validators (also used to enable/disable the button) ----------
   String? _validateRequired(String? value, String label) {
     if (value == null || value.trim().isEmpty) return 'Please enter your $label';
     return null;
@@ -96,7 +94,6 @@ class _SignUpPageState extends State<SignUpPage> {
       _validatePassword(_passwordController.text) == null &&
       _validateConfirm(_confirmPasswordController.text) == null;
 
-  // ---------- Password strength ----------
   String get _passwordStrength {
     final p = _passwordController.text;
     if (p.isEmpty) return 'None';
@@ -123,10 +120,8 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  // ---------- Submit ----------
   Future<void> _submitSignup() async {
     if (!_formKey.currentState!.validate()) {
-      // After the first attempt, errors update live as the user fixes fields.
       setState(() => _autovalidateMode = AutovalidateMode.onUserInteraction);
       return;
     }
@@ -154,7 +149,6 @@ class _SignUpPageState extends State<SignUpPage> {
     super.dispose();
   }
 
-  // ---------- UI helpers ----------
   Widget _labeledField({
     required String label,
     required TextEditingController controller,
@@ -297,14 +291,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     const SizedBox(height: 20),
 
-                    // Sign Up button (light blue when disabled, as in the mock)
                     SizedBox(
                       height: 48,
                       child: ElevatedButton(
                         onPressed: _isLoading ? null : _submitSignup,
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
-                          // Light blue while the form is incomplete, but still tappable
                           backgroundColor: _isFormValid
                               ? const Color(0xFF2F8FE8)
                               : const Color(0xFF8EC3EE),
